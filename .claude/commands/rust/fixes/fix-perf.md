@@ -51,4 +51,11 @@ After:  {optimized_code}
 
 {if dry_run}Show what optimizations would be made without applying them.{endif}
 
+**IMPORTANT OPTIMIZATION SCOPE:**
+- ONLY optimize production/library code
+- SKIP test files (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test modules (code inside `#[cfg(test)]` blocks)
+- SKIP doc tests (code inside documentation examples)
+- Focus exclusively on non-test code optimizations
+
 Optimize performance in: {file_pattern}

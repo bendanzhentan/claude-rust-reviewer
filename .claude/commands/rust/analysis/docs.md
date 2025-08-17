@@ -42,4 +42,11 @@ Files analyzed: {count}
 Documentation: {percentage}% | Tests: {percentage}%
 ```
 
+**IMPORTANT ANALYSIS SCOPE:**
+- ONLY analyze production/library code documentation
+- SKIP test files (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test modules (code inside `#[cfg(test)]` blocks)
+- SKIP doc tests (code inside documentation examples)
+- Focus exclusively on non-test code documentation
+
 Analyze the following Rust files: {file_pattern}

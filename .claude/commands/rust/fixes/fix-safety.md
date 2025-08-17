@@ -51,4 +51,11 @@ You are a Rust safety expert tasked with automatically fixing safety issues in c
 
 {if dry_run}Show what changes would be made without applying them.{endif}
 
+**IMPORTANT FIX SCOPE:**
+- ONLY fix safety issues in production/library code
+- SKIP test files (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test modules (code inside `#[cfg(test)]` blocks)
+- SKIP doc tests (code inside documentation examples)
+- Focus exclusively on non-test code safety fixes
+
 Fix safety issues in: {file_pattern}

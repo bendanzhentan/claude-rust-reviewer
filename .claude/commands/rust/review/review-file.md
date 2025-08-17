@@ -52,4 +52,11 @@ fn {function_name} (lines {start}-{end}):
 📈 FILE HEALTH SCORE: {score}/10
 ```
 
+**IMPORTANT REVIEW SCOPE:**
+- ONLY review production/library code
+- SKIP test files (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test modules (code inside `#[cfg(test)]` blocks)
+- SKIP doc tests (code inside documentation examples)
+- Focus exclusively on non-test code
+
 Provide detailed analysis of: {file_path}

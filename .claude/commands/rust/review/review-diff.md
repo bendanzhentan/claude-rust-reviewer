@@ -59,4 +59,11 @@ Comparing: current → {branch} | Files changed: {count}
 - Medium: Logic changes, new features, optimizations  
 - High: Architecture changes, unsafe code, performance critical paths
 
+**IMPORTANT REVIEW SCOPE:**
+- ONLY review production/library code changes
+- SKIP test file changes (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test module changes (code inside `#[cfg(test)]` blocks)
+- SKIP doc test changes (code inside documentation examples)
+- Focus exclusively on non-test code changes
+
 Review changes against: {branch}

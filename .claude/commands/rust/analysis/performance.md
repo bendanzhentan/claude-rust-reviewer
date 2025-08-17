@@ -45,4 +45,11 @@ High: {count} | Medium: {count} | Low: {count}
 - Medium: Noticeable but not critical performance impact
 - Low: Code quality improvements with minor performance benefit
 
+**IMPORTANT ANALYSIS SCOPE:**
+- ONLY analyze production/library code performance
+- SKIP test files (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test modules (code inside `#[cfg(test)]` blocks)
+- SKIP doc tests (code inside documentation examples)
+- Focus exclusively on non-test code performance
+
 Analyze the following Rust files: {file_pattern}

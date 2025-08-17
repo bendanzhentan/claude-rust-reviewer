@@ -56,4 +56,11 @@ You are a comprehensive Rust code expert tasked with applying all available auto
 
 {if dry_run}Show comprehensive analysis of all changes without applying them.{endif}
 
+**IMPORTANT FIX SCOPE:**
+- ONLY apply fixes to production/library code
+- SKIP test files (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test modules (code inside `#[cfg(test)]` blocks)
+- SKIP doc tests (code inside documentation examples)
+- Focus exclusively on non-test code fixes
+
 Apply all fixes to: {file_pattern}

@@ -40,4 +40,11 @@ You are a Rust style expert tasked with automatically fixing style and best prac
 
 {if dry_run}Show what style changes would be made without applying them.{endif}
 
+**IMPORTANT FIX SCOPE:**
+- ONLY fix style issues in production/library code
+- SKIP test files (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test modules (code inside `#[cfg(test)]` blocks)
+- SKIP doc tests (code inside documentation examples)
+- Focus exclusively on non-test code style fixes
+
 Fix style issues in: {file_pattern}

@@ -62,4 +62,11 @@ Safety: {score}/10 | Performance: {score}/10 | Docs: {score}/10 | Style: {score}
 - Documentation: Coverage, clarity, examples
 - Style: Idiomatic patterns, consistency
 
+**IMPORTANT REVIEW SCOPE:**
+- ONLY review production/library code
+- SKIP test files (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test modules (code inside `#[cfg(test)]` blocks)
+- SKIP doc tests (code inside documentation examples)
+- Focus exclusively on non-test code
+
 Review the following Rust code: {file_pattern}

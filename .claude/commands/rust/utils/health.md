@@ -54,4 +54,11 @@ Ongoing: {maintenance_actions}
 - {improvement_area}
 ```
 
+**IMPORTANT ASSESSMENT SCOPE:**
+- ONLY assess production/library code health
+- SKIP test files (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test modules (code inside `#[cfg(test)]` blocks)
+- SKIP doc tests (code inside documentation examples)
+- Focus exclusively on non-test code health
+
 Generate health report for: {file_pattern}

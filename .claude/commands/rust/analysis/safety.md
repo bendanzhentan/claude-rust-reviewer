@@ -45,4 +45,11 @@ Files analyzed: {count}
 3. Suggest concrete fixes
 4. Rate severity: CRITICAL, HIGH, MEDIUM, LOW
 
+**IMPORTANT ANALYSIS SCOPE:**
+- ONLY analyze production/library code safety
+- SKIP test files (files ending in `_test.rs`, `test.rs`, or in `tests/` directory)
+- SKIP test modules (code inside `#[cfg(test)]` blocks)
+- SKIP doc tests (code inside documentation examples)
+- Focus exclusively on non-test code safety
+
 Analyze the following Rust files: {file_pattern}
