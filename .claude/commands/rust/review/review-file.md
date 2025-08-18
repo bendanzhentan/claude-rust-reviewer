@@ -109,7 +109,6 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 ```markdown
 # Code Review Report: {file_path}
 
-**Review Date:** {current_date}
 **Focus Areas:** {focus}
 **Knowledge Base:** .knowledge/{file_relative_path}.md
 
@@ -176,28 +175,6 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Analysis:** {architectural_or_maintainability_reasoning}
 - **Refactor:** {specific_refactoring_approach}
 - **Priority:** MEDIUM/LOW
-
-## 📋 PRIORITIZED ACTIONABLE FIXES
-
-1. **[CRITICAL-001]** {descriptive_issue_name}: {specific_action_with_urgency_reasoning}
-2. **[CRITICAL-002]** {descriptive_issue_name}: {specific_action_with_urgency_reasoning}
-3. **[PERF-001]** {descriptive_issue_name}: {specific_action_with_impact_reasoning}
-4. **[BUG-001]** {descriptive_issue_name}: {specific_action_with_improvement_reasoning}
-
-## 📊 ANALYSIS SUMMARY
-
-- **Total issues found:** {total_issues}
-- **Critical:** {critical_count} | **Performance:** {perf_count} | **Bugs:** {bug_count} | **Design:** {design_count}
-- **Estimated fix effort:** {time_estimate}
-- **Confidence in analysis:** {confidence_level}
-- **Overall file health score:** {health_score}/10
-
-## 📝 REVIEW METADATA
-
-- **Reviewer:** AI Code Reviewer
-- **Review methodology:** Deep analysis with crate context
-- **Knowledge base used:** .knowledge/{file_relative_path}.md
-- **Review scope:** Production code only (tests and simple functions excluded)
 ```
 
 Then provide a console summary:
