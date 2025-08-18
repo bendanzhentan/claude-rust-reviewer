@@ -34,7 +34,7 @@ You are conducting a detailed review of a single Rust file.
 
 **KNOWLEDGE DOCUMENTATION:**
 Before conducting the review, create a comprehensive understanding document at:
-`knowledge/{file_relative_path}.md`
+`.knowledge/{file_relative_path}.md`
 
 This document should contain:
 - File purpose and architectural role
@@ -66,7 +66,7 @@ This document should contain:
 
 **OUTPUT FORMAT:**
 
-First, create the knowledge document at `knowledge/{file_relative_path}.md`:
+First, create the knowledge document at `.knowledge/{file_relative_path}.md`:
 ```markdown
 # {file_path} - Understanding
 
@@ -104,14 +104,14 @@ First, create the knowledge document at `knowledge/{file_relative_path}.md`:
 Then provide the careful, targeted review and create the report file:
 
 **REPORT OUTPUT:**
-Create a detailed report at `report/{file_relative_path}.md` with the following content:
+Create a detailed report at `.report/{file_relative_path}.md` with the following content:
 
 ```markdown
 # Code Review Report: {file_path}
 
 **Review Date:** {current_date}
 **Focus Areas:** {focus}
-**Knowledge Base:** knowledge/{file_relative_path}.md
+**Knowledge Base:** .knowledge/{file_relative_path}.md
 
 ## 🚨 CRITICAL SAFETY ISSUES (Fix immediately)
 
@@ -196,7 +196,7 @@ Create a detailed report at `report/{file_relative_path}.md` with the following 
 
 - **Reviewer:** AI Code Reviewer
 - **Review methodology:** Deep analysis with crate context
-- **Knowledge base used:** knowledge/{file_relative_path}.md
+- **Knowledge base used:** .knowledge/{file_relative_path}.md
 - **Review scope:** Production code only (tests and simple functions excluded)
 ```
 
