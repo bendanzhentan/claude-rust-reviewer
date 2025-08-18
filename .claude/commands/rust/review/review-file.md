@@ -182,12 +182,6 @@ Then provide a console summary:
 🔍 CAREFUL TARGETED CODE REVIEW COMPLETED: {file_path}
 📄 Report generated: .report/{file_relative_path}.md
 📚 Knowledge documented: .knowledge/{file_relative_path}.md
-
-📊 QUICK SUMMARY:
-- Issues found: {total_issues} (Critical: {critical_count}, Performance: {perf_count}, Bugs: {bug_count}, Design: {design_count})
-- All issues have unique IDs for easy reference (e.g., CRITICAL-001, PERF-001, BUG-001, DESIGN-001)
-- Detailed analysis and fixes available in the report file
-- Estimated fix effort: {time_estimate}
 ```
 
 **CRITICAL REVIEW GUIDELINES:**
