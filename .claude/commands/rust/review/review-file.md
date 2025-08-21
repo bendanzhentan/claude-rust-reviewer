@@ -32,8 +32,11 @@ You are conducting a detailed review of a single Rust file.
 - Evaluate API design and usability thoroughly
 - Consider maintainability and future evolution
 
-**INTERNAL UNDERSTANDING:**
-Before conducting the review, develop a comprehensive understanding of:
+**KNOWLEDGE DOCUMENTATION:**
+Before conducting the review, create a comprehensive understanding document at:
+`.knowledge/{file_relative_path}.md`
+
+This document should contain:
 - File purpose and architectural role
 - Key components (structs, enums, traits, functions)
 - Dependencies and relationships with other modules
@@ -48,20 +51,92 @@ Before conducting the review, develop a comprehensive understanding of:
 - Prioritize issues by impact and complexity of fixes
 - Focus review effort on complex logic where bugs are more likely
 
-**SYSTEMATIC ISSUE DETECTION:**
-1. **Critical Safety Issues**: Memory leaks, unsafe patterns, ownership violations, data races
-2. **Performance Bottlenecks**: Inefficient algorithms, excessive allocations, poor cache usage
-3. **Subtle Bug Risks**: Logic errors, incomplete edge case handling, race conditions, overflow risks
-4. **Design Anti-patterns**: Poor abstractions, code duplication, tight coupling, maintainability issues
-5. **API Usability Problems**: Inconsistent interfaces, breaking changes, confusing behavior
+**SYSTEMATIC ISSUE DETECTION - FOCUS ON ACTUAL PROBLEMS:**
 
-**THINKING METHODOLOGY:**
-- For each function: What could go wrong? What are the edge cases?
-- For each algorithm: Is this the most efficient approach? Are there hidden costs?
-- For each data structure: Is the memory layout optimal? Are there better alternatives?
-- For each API: Is this intuitive to use? What mistakes could users make?
+## HIGH PRIORITY (Report these):
+1. **Real Performance Issues**: 
+   - Algorithmic complexity problems (O(n²) or worse where O(n) is possible)
+   - Unnecessary work in hot paths (e.g., fetching all items then truncating vs limiting at source)
+   - Memory leaks or unbounded growth
+   - NOT: micro-optimizations, nested matches, error formatting
+
+2. **Actual Logic Errors**:
+   - Code that produces incorrect results
+   - Genuine panic risks (NOT when expect() has clear explanations)
+   - Resource leaks (files, sockets, locks not released)
+   - Data races and deadlocks in concurrent code
+
+3. **Security Vulnerabilities**:
+   - SQL injection, command injection
+   - Unvalidated user input leading to exploits
+   - Exposed secrets or credentials
+   - NOT: theoretical integer overflow in config modules
+
+## MEDIUM PRIORITY (Consider reporting):
+1. **Refactoring Opportunities**:
+   - Complex functions that genuinely need splitting (>100 lines with multiple responsibilities)
+   - Inconsistent delegation patterns that create maintenance burden
+   - Code duplication that could cause sync issues
+
+2. **Feature Suggestions**:
+   - Missing functionality that would improve the system
+   - Better error handling strategies
+   - Useful validation that's actually missing
+
+## IGNORE (Do NOT report these):
+1. **Style Preferences**: Builder patterns, const usage, formatting choices
+2. **Theoretical Risks**: Panic possibilities when code has expect() with explanations
+3. **Common Rust Patterns**: as_any(), downcast_ref(), standard error handling
+4. **Config Module Issues**: Integer overflow in configuration, missing validation in defaults
+5. **Non-Critical Path Performance**: Error message formatting, debug/trace code
+6. **Well-Understood Trade-offs**: When comments explain the design decision
+
+**EVALUATION CRITERIA:**
+- **Trust the Developer**: If code has comments explaining assumptions, believe them
+- **Prove the Problem**: Only report issues you can demonstrate will cause actual failures
+- **Consider Context**: Distinguish between critical paths and non-critical paths
+- **Understand Production Code**: This is battle-tested code, not a student project
+- **Check for Evidence**: Look for existing tests that validate the behavior
+- **Avoid Speculation**: Don't report "potential" issues without concrete scenarios
 
 **OUTPUT FORMAT:**
+
+First, create the knowledge document at `.knowledge/{file_relative_path}.md`:
+```markdown
+# {file_path} - Understanding
+
+## File Purpose
+{detailed_purpose_and_role}
+
+## Architectural Context
+{position_in_crate_architecture}
+
+## Key Components
+### Structs/Enums
+- {name}: {purpose_and_design}
+
+### Core Functions
+- {function_name}: {purpose_and_logic}
+
+## Dependencies
+### Internal Dependencies
+- {module}: {relationship}
+
+### External Dependencies  
+- {crate}: {usage_purpose}
+
+## Design Patterns
+{patterns_and_algorithms_used}
+
+## API Surface
+### Public Interface
+{exported_items_and_their_purpose}
+
+### Internal Implementation
+{key_implementation_details}
+```
+
+Then provide the careful, targeted review and create the report file:
 
 **REPORT OUTPUT:**
 Create a detailed report at `.report/{file_relative_path}.md` with the following content:
@@ -70,97 +145,61 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 # Code Review Report: {file_path}
 
 **Focus Areas:** {focus}
-**Metadata:**
-- have_reviewed_by_human: false
+**Knowledge Base:** .knowledge/{file_relative_path}.md
 
-## 🚨 CRITICAL SAFETY ISSUES (Fix immediately)
-
-### [CRITICAL-001] {descriptive_issue_name}
-- **Location:** {file}:{line}
-- **Issue:** {detailed_critical_issue_with_reasoning}
-- **Analysis:** {why_this_is_problematic}
-- **Fix:** {specific_concrete_fix_suggestion}
-- **Priority:** CRITICAL
-human options: 
-
-### [CRITICAL-002] {descriptive_issue_name}
-- **Location:** {file}:{line}
-- **Issue:** {detailed_critical_issue_with_reasoning}
-- **Analysis:** {why_this_is_problematic}
-- **Fix:** {specific_concrete_fix_suggestion}
-- **Priority:** CRITICAL
-human options: 
-
-## ⚡ PERFORMANCE BOTTLENECKS (Optimization needed)
-
-### [PERF-001] {descriptive_issue_name}
-- **Location:** {file}:{line}
-- **Issue:** {detailed_performance_issue_with_impact_analysis}
-- **Analysis:** {algorithmic_or_implementation_reasoning}
-- **Optimization:** {specific_optimization_with_expected_improvement}
-- **Priority:** HIGH/MEDIUM
-human options: 
-
-### [PERF-002] {descriptive_issue_name}
-- **Location:** {file}:{line}
-- **Issue:** {detailed_performance_issue_with_impact_analysis}
-- **Analysis:** {algorithmic_or_implementation_reasoning}
-- **Optimization:** {specific_optimization_with_expected_improvement}
-- **Priority:** HIGH/MEDIUM
-human options: 
-
-## 🐛 SUBTLE BUG RISKS (Potential failures)
+## 🐛 BUGS (Actual problems that will cause failures)
 
 ### [BUG-001] {descriptive_issue_name}
 - **Location:** {file}:{line}
-- **Issue:** {detailed_bug_risk_with_scenario_analysis}
-- **Analysis:** {edge_case_or_logic_reasoning}
-- **Fix:** {specific_bug_fix_with_testing_suggestion}
+- **Issue:** {concrete_problem_that_causes_incorrect_behavior}
+- **Proof:** {specific_scenario_where_this_fails}
+- **Fix:** {exact_code_change_needed}
+- **Priority:** HIGH
+
+## ⚡ PERFORMANCE (Provable inefficiencies with O(n) analysis)
+
+### [PERF-001] {descriptive_issue_name}
+- **Location:** {file}:{line}
+- **Current Complexity:** {e.g., O(n) where n is total pool size}
+- **Optimal Complexity:** {e.g., O(k) where k is requested count}
+- **Impact:** {measurable_impact_in_production_scenario}
+- **Fix:** {specific_optimization_with_code}
 - **Priority:** HIGH/MEDIUM
-human options: 
 
-### [BUG-002] {descriptive_issue_name}
+## 🔧 REFACTOR (Code organization improvements)
+
+### [REFACTOR-001] {descriptive_issue_name}
 - **Location:** {file}:{line}
-- **Issue:** {detailed_bug_risk_with_scenario_analysis}
-- **Analysis:** {edge_case_or_logic_reasoning}
-- **Fix:** {specific_bug_fix_with_testing_suggestion}
-- **Priority:** HIGH/MEDIUM
-human options: 
-
-## 🏗️ DESIGN ANTI-PATTERNS (Refactoring needed)
-
-### [DESIGN-001] {descriptive_issue_name}
-- **Location:** {file}:{line}
-- **Issue:** {detailed_design_problem_with_maintenance_impact}
-- **Analysis:** {architectural_or_maintainability_reasoning}
-- **Refactor:** {specific_refactoring_approach}
+- **Problem:** {maintenance_or_consistency_issue}
+- **Benefit:** {concrete_improvement_this_brings}
+- **Change:** {specific_refactoring_approach}
 - **Priority:** MEDIUM/LOW
-human options: 
 
-### [DESIGN-002] {descriptive_issue_name}
+## 💡 FEATURE (Missing functionality suggestions)
+
+### [FEATURE-001] {descriptive_issue_name}
 - **Location:** {file}:{line}
-- **Issue:** {detailed_design_problem_with_maintenance_impact}
-- **Analysis:** {architectural_or_maintainability_reasoning}
-- **Refactor:** {specific_refactoring_approach}
+- **Current Gap:** {what_is_missing}
+- **Use Case:** {why_this_would_be_valuable}
+- **Implementation:** {how_to_add_this_feature}
 - **Priority:** MEDIUM/LOW
-human options: 
 ```
 
 Then provide a console summary:
 ```
 🔍 CAREFUL TARGETED CODE REVIEW COMPLETED: {file_path}
 📄 Report generated: .report/{file_relative_path}.md
+📚 Knowledge documented: .knowledge/{file_relative_path}.md
 ```
 
 **CRITICAL REVIEW GUIDELINES:**
-- **THINK CAREFULLY**: Analyze each code section with deep consideration
-- **BE THOROUGH**: Don't rush - examine edge cases and subtle issues
-- **ONLY REPORT PROBLEMS**: Skip well-implemented code entirely
-- **BE SPECIFIC**: Provide exact line numbers and concrete fix suggestions
-- **USE CONTEXT**: Leverage crate understanding to find context-specific issues
-- **QUESTION EVERYTHING**: Challenge assumptions and design choices
-- **LOOK FOR SUBTLETY**: Find non-obvious bugs and performance issues
-- **CONSIDER MAINTENANCE**: Think about long-term code evolution and maintenance burden
+- **QUALITY OVER QUANTITY**: Report 3 high-value issues rather than 10 theoretical ones
+- **PROVE IT**: Every issue must have concrete evidence or reproducible scenario
+- **TRUST DEVELOPERS**: If code has survived in production, it probably works
+- **FOCUS ON HOT PATHS**: Performance only matters where code runs frequently
+- **RESPECT COMMENTS**: If a comment explains why something is done, believe it
+- **ACTUAL vs THEORETICAL**: Only report what WILL fail, not what MIGHT fail
+- **SKIP THE OBVIOUS**: Don't report well-known trade-offs or documented decisions
 
 **ANALYSIS DEPTH REQUIREMENTS:**
 - Trace through complex logic paths step by step
