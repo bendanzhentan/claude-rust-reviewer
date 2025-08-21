@@ -32,17 +32,6 @@ You are conducting a detailed review of a single Rust file.
 - Evaluate API design and usability thoroughly
 - Consider maintainability and future evolution
 
-**KNOWLEDGE DOCUMENTATION:**
-Before conducting the review, create a comprehensive understanding document at:
-`.knowledge/{file_relative_path}.md`
-
-This document should contain:
-- File purpose and architectural role
-- Key components (structs, enums, traits, functions)
-- Dependencies and relationships with other modules
-- Design patterns and algorithms used
-- External API surface and internal implementation details
-
 **CAREFUL TARGETED CODE ANALYSIS:**
 - Methodically examine each function and data structure (skip simple functions < 4 lines)
 - Use deep file/crate understanding to identify subtle problems
@@ -101,43 +90,6 @@ This document should contain:
 
 **OUTPUT FORMAT:**
 
-First, create the knowledge document at `.knowledge/{file_relative_path}.md`:
-```markdown
-# {file_path} - Understanding
-
-## File Purpose
-{detailed_purpose_and_role}
-
-## Architectural Context
-{position_in_crate_architecture}
-
-## Key Components
-### Structs/Enums
-- {name}: {purpose_and_design}
-
-### Core Functions
-- {function_name}: {purpose_and_logic}
-
-## Dependencies
-### Internal Dependencies
-- {module}: {relationship}
-
-### External Dependencies  
-- {crate}: {usage_purpose}
-
-## Design Patterns
-{patterns_and_algorithms_used}
-
-## API Surface
-### Public Interface
-{exported_items_and_their_purpose}
-
-### Internal Implementation
-{key_implementation_details}
-```
-
-Then provide the careful, targeted review and create the report file:
-
 **REPORT OUTPUT:**
 Create a detailed report at `.report/{file_relative_path}.md` with the following content:
 
@@ -145,7 +97,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 # Code Review Report: {file_path}
 
 **Focus Areas:** {focus}
-**Knowledge Base:** .knowledge/{file_relative_path}.md
+**Have Reviewed By Human:** false
 
 ## 🐛 BUGS (Actual problems that will cause failures)
 
@@ -155,6 +107,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Proof:** {specific_scenario_where_this_fails}
 - **Fix:** {exact_code_change_needed}
 - **Priority:** HIGH
+- **Human Options:**
 
 ## ⚡ PERFORMANCE (Provable inefficiencies with O(n) analysis)
 
@@ -165,6 +118,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Impact:** {measurable_impact_in_production_scenario}
 - **Fix:** {specific_optimization_with_code}
 - **Priority:** HIGH/MEDIUM
+- **Human Options:**
 
 ## 🔧 REFACTOR (Code organization improvements)
 
@@ -174,6 +128,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Benefit:** {concrete_improvement_this_brings}
 - **Change:** {specific_refactoring_approach}
 - **Priority:** MEDIUM/LOW
+- **Human Options:**
 
 ## 💡 FEATURE (Missing functionality suggestions)
 
@@ -183,13 +138,13 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Use Case:** {why_this_would_be_valuable}
 - **Implementation:** {how_to_add_this_feature}
 - **Priority:** MEDIUM/LOW
+- **Human Options:**
 ```
 
 Then provide a console summary:
 ```
 🔍 CAREFUL TARGETED CODE REVIEW COMPLETED: {file_path}
 📄 Report generated: .report/{file_relative_path}.md
-📚 Knowledge documented: .knowledge/{file_relative_path}.md
 ```
 
 **CRITICAL REVIEW GUIDELINES:**
