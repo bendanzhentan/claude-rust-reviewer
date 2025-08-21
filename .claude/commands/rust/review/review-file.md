@@ -32,11 +32,8 @@ You are conducting a detailed review of a single Rust file.
 - Evaluate API design and usability thoroughly
 - Consider maintainability and future evolution
 
-**KNOWLEDGE DOCUMENTATION:**
-Before conducting the review, create a comprehensive understanding document at:
-`.knowledge/{file_relative_path}.md`
-
-This document should contain:
+**INTERNAL UNDERSTANDING:**
+Before conducting the review, develop a comprehensive understanding of:
 - File purpose and architectural role
 - Key components (structs, enums, traits, functions)
 - Dependencies and relationships with other modules
@@ -66,43 +63,6 @@ This document should contain:
 
 **OUTPUT FORMAT:**
 
-First, create the knowledge document at `.knowledge/{file_relative_path}.md`:
-```markdown
-# {file_path} - Understanding
-
-## File Purpose
-{detailed_purpose_and_role}
-
-## Architectural Context
-{position_in_crate_architecture}
-
-## Key Components
-### Structs/Enums
-- {name}: {purpose_and_design}
-
-### Core Functions
-- {function_name}: {purpose_and_logic}
-
-## Dependencies
-### Internal Dependencies
-- {module}: {relationship}
-
-### External Dependencies  
-- {crate}: {usage_purpose}
-
-## Design Patterns
-{patterns_and_algorithms_used}
-
-## API Surface
-### Public Interface
-{exported_items_and_their_purpose}
-
-### Internal Implementation
-{key_implementation_details}
-```
-
-Then provide the careful, targeted review and create the report file:
-
 **REPORT OUTPUT:**
 Create a detailed report at `.report/{file_relative_path}.md` with the following content:
 
@@ -110,7 +70,8 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 # Code Review Report: {file_path}
 
 **Focus Areas:** {focus}
-**Knowledge Base:** .knowledge/{file_relative_path}.md
+**Metadata:**
+- have_reviewed_by_human: false
 
 ## 🚨 CRITICAL SAFETY ISSUES (Fix immediately)
 
@@ -120,6 +81,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Analysis:** {why_this_is_problematic}
 - **Fix:** {specific_concrete_fix_suggestion}
 - **Priority:** CRITICAL
+human options: 
 
 ### [CRITICAL-002] {descriptive_issue_name}
 - **Location:** {file}:{line}
@@ -127,6 +89,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Analysis:** {why_this_is_problematic}
 - **Fix:** {specific_concrete_fix_suggestion}
 - **Priority:** CRITICAL
+human options: 
 
 ## ⚡ PERFORMANCE BOTTLENECKS (Optimization needed)
 
@@ -136,6 +99,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Analysis:** {algorithmic_or_implementation_reasoning}
 - **Optimization:** {specific_optimization_with_expected_improvement}
 - **Priority:** HIGH/MEDIUM
+human options: 
 
 ### [PERF-002] {descriptive_issue_name}
 - **Location:** {file}:{line}
@@ -143,6 +107,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Analysis:** {algorithmic_or_implementation_reasoning}
 - **Optimization:** {specific_optimization_with_expected_improvement}
 - **Priority:** HIGH/MEDIUM
+human options: 
 
 ## 🐛 SUBTLE BUG RISKS (Potential failures)
 
@@ -152,6 +117,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Analysis:** {edge_case_or_logic_reasoning}
 - **Fix:** {specific_bug_fix_with_testing_suggestion}
 - **Priority:** HIGH/MEDIUM
+human options: 
 
 ### [BUG-002] {descriptive_issue_name}
 - **Location:** {file}:{line}
@@ -159,6 +125,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Analysis:** {edge_case_or_logic_reasoning}
 - **Fix:** {specific_bug_fix_with_testing_suggestion}
 - **Priority:** HIGH/MEDIUM
+human options: 
 
 ## 🏗️ DESIGN ANTI-PATTERNS (Refactoring needed)
 
@@ -168,6 +135,7 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Analysis:** {architectural_or_maintainability_reasoning}
 - **Refactor:** {specific_refactoring_approach}
 - **Priority:** MEDIUM/LOW
+human options: 
 
 ### [DESIGN-002] {descriptive_issue_name}
 - **Location:** {file}:{line}
@@ -175,13 +143,13 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 - **Analysis:** {architectural_or_maintainability_reasoning}
 - **Refactor:** {specific_refactoring_approach}
 - **Priority:** MEDIUM/LOW
+human options: 
 ```
 
 Then provide a console summary:
 ```
 🔍 CAREFUL TARGETED CODE REVIEW COMPLETED: {file_path}
 📄 Report generated: .report/{file_relative_path}.md
-📚 Knowledge documented: .knowledge/{file_relative_path}.md
 ```
 
 **CRITICAL REVIEW GUIDELINES:**
