@@ -73,12 +73,16 @@ You are conducting a detailed review of a single Rust file.
    - Useful validation that's actually missing
 
 ## IGNORE (Do NOT report these):
-1. **Style Preferences**: Builder patterns, const usage, formatting choices
+1. **Style Preferences**: Builder patterns, const usage, formatting choices, wildcard imports, module organization
 2. **Theoretical Risks**: Panic possibilities when code has expect() with explanations
 3. **Common Rust Patterns**: as_any(), downcast_ref(), standard error handling
 4. **Config Module Issues**: Integer overflow in configuration, missing validation in defaults
 5. **Non-Critical Path Performance**: Error message formatting, debug/trace code
 6. **Well-Understood Trade-offs**: When comments explain the design decision
+7. **Already Protected Code**: If debug_assert/assert already guards the condition, don't suggest redundant checks
+8. **Minor Code Duplication**: Less than 10 lines of duplicated code that maintains readability
+9. **Micro-optimizations**: Optimizations that add complexity without proving 10x+ performance improvement
+10. **TODO Comments**: Unless you've verified the condition is actually met (use grep/search to check)
 
 **EVALUATION CRITERIA:**
 - **Trust the Developer**: If code has comments explaining assumptions, believe them
@@ -87,6 +91,7 @@ You are conducting a detailed review of a single Rust file.
 - **Understand Production Code**: This is battle-tested code, not a student project
 - **Check for Evidence**: Look for existing tests that validate the behavior
 - **Avoid Speculation**: Don't report "potential" issues without concrete scenarios
+- **Cost-Benefit Analysis**: Only suggest changes where benefit clearly outweighs complexity cost
 
 **OUTPUT FORMAT:**
 
@@ -146,6 +151,20 @@ Then provide a console summary:
 🔍 CAREFUL TARGETED CODE REVIEW COMPLETED: {file_path}
 📄 Report generated: .report/{file_relative_path}.md
 ```
+
+**HIGH-VALUE ISSUE CRITERIA:**
+Issues must meet these standards to be worth reporting:
+1. **Algorithm Complexity**: Must show improvement from O(n²) to O(n) or better
+2. **Performance Impact**: Must quantify improvement (e.g., "20,000 operations → 1 lookup")
+3. **Logic Errors**: Must provide specific input that produces wrong output
+4. **Resource Leaks**: Must identify specific path where resources won't be released
+
+**QUANTIFICATION REQUIREMENTS:**
+Every reported issue must answer:
+- **Impact Scale**: How many users/operations affected?
+- **Performance Gain**: Is improvement 2x, 10x, or more?
+- **Cost vs Benefit**: Does the fix complexity justify the improvement?
+- **Production Impact**: What's the real-world effect in production scenarios?
 
 **CRITICAL REVIEW GUIDELINES:**
 - **QUALITY OVER QUANTITY**: Report 3 high-value issues rather than 10 theoretical ones
