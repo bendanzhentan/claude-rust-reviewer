@@ -8,7 +8,7 @@
 
 ## Prompt
 
-You are conducting a detailed review of a single Rust file.
+You are conducting a detailed review of a **single Rust file**.
 
 **CAREFUL REVIEW PROCESS:**
 1. **FIRST**: Deeply understand the target file and its role in the crate
