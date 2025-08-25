@@ -149,13 +149,14 @@ Then provide a console summary:
 📄 Report generated: .report/{file_path}.md
 ```
 
-**DEEP VALIDATION STEP:**
-After completing the initial review and generating the report, if any issues were found, perform deep validation on each reported issue:
+**MANDATORY DEEP VALIDATION STEP:**
+After completing the initial review and generating the report, if any high-value issues were found, you MUST immediately perform deep validation:
 
-1. **For each issue found** (BUG-001, PERF-001, etc.), use the `/alice-rust-deep` command to validate the issue
+1. **For each high-value issue found** (BUG-001, PERF-001, etc.), AUTOMATICALLY use the `/alice-rust-deep` command to validate the issue
 2. **Run deep validation**: `/alice-rust-deep .report/{file_path}.md {issue_id}`
 3. **This will automatically update the report** with Deep Analysis sections for each issue
 4. **The deep validation will classify each issue** as VALID-HIGH/MEDIUM/LOW, QUESTIONABLE, or INVALID-*
+5. **DO NOT SKIP THIS STEP** - deep validation is required for all reported issues
 
 **DEEP VALIDATION IMPLEMENTATION:**
 ```
@@ -168,9 +169,9 @@ For each reported issue ID (e.g., BUG-001, PERF-002, CRITICAL-001):
 
 **EXAMPLE WORKFLOW:**
 1. Generate initial review report with 3 issues: BUG-001, PERF-001, REFACTOR-001
-2. Run `/alice-rust-deep .report/crates_pool_src_batcher.md BUG-001`
-3. Run `/alice-rust-deep .report/crates_pool_src_batcher.md PERF-001`  
-4. Run `/alice-rust-deep .report/crates_pool_src_batcher.md REFACTOR-001`
+2. IMMEDIATELY run `/alice-rust-deep .report/crates_pool_src_batcher.md BUG-001`
+3. IMMEDIATELY run `/alice-rust-deep .report/crates_pool_src_batcher.md PERF-001`  
+4. IMMEDIATELY run `/alice-rust-deep .report/crates_pool_src_batcher.md REFACTOR-001`
 5. Final report will contain both initial findings and deep validation results
 
 This two-phase approach ensures high-quality issue reporting by eliminating false positives through ultra-deep validation.
@@ -213,5 +214,11 @@ Every reported issue must answer:
 - SKIP doc tests (code inside documentation examples)
 - SKIP simple functions with less than 4 lines of code
 - Focus exclusively on non-test code with sufficient complexity
+
+**STRICT SINGLE FILE FOCUS:**
+- ONLY analyze the specified file: {file_path}
+- DO NOT continue reviewing other files from any input list
+- DO NOT suggest reviewing additional files
+- Complete the review and stop after analyzing the single target file
 
 Provide detailed analysis of: {file_path}

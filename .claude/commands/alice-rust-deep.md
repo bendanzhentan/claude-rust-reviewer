@@ -1,4 +1,4 @@
-# /alice-deep-review
+# /alice-rust-deep
 
 **Description:** Deep validation analysis of specific issues from Rust code review reports using advanced reasoning
 

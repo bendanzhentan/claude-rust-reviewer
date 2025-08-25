@@ -44,8 +44,32 @@ total_files=$(grep -c . "$input_file")
 echo "总共需要处理 $total_files 个文件"
 echo "================================"
 
-# 逐行读取文件并处理
-while IFS= read -r line || [[ -n "$line" ]]; do
+# 读取所有行到数组中
+mapfile -t file_lines < "$input_file"
+
+# 先打印所有待处理的文件列表
+echo ""
+echo "待处理的文件列表："
+echo "================================"
+line_index=0
+while [ $line_index -lt ${#file_lines[@]} ]; do
+    line="${file_lines[$line_index]}"
+    # 跳过空行
+    if [ -n "$line" ]; then
+        # 去除行首尾空白字符
+        clean_line=$(echo "$line" | xargs)
+        # 跳过处理后为空的行
+        if [ -n "$clean_line" ]; then
+            echo "$clean_line"
+        fi
+    fi
+    ((line_index++))
+done
+echo "================================"
+echo ""
+
+# 逐行处理文件
+for line in "${file_lines[@]}"; do
     # 跳过空行
     if [ -z "$line" ]; then
         continue
@@ -100,7 +124,7 @@ while IFS= read -r line || [[ -n "$line" ]]; do
 
     echo "----------------------------------------"
 
-done < "$input_file"
+done
 
 echo ""
 echo "================================"
