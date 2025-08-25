@@ -47,7 +47,7 @@ You are conducting a detailed review of a **single Rust file**.
    - Algorithmic complexity problems (O(n²) or worse where O(n) is possible)
    - Unnecessary work in hot paths (e.g., fetching all items then truncating vs limiting at source)
    - Memory leaks or unbounded growth
-   - NOT: micro-optimizations, nested matches, error formatting
+   - NOT: micro-optimizations, nested matches, error formatting, iterator chains (iter().filter().collect()), "O(n) + O(n)" iterator patterns that the compiler fuses
 
 2. **Actual Logic Errors**:
    - Code that produces incorrect results
@@ -63,7 +63,7 @@ You are conducting a detailed review of a **single Rust file**.
 
 ## MEDIUM PRIORITY (Consider reporting):
 1. **Refactoring Opportunities**:
-   - Complex functions that genuinely need splitting (>100 lines with multiple responsibilities)
+   - Complex functions that genuinely need splitting (>100 lines with multiple responsibilities) - NOT just nested logic that matches business requirements
    - Inconsistent delegation patterns that create maintenance burden
    - Code duplication that could cause sync issues
 
@@ -83,6 +83,9 @@ You are conducting a detailed review of a **single Rust file**.
 8. **Minor Code Duplication**: Less than 10 lines of duplicated code that maintains readability
 9. **Micro-optimizations**: Optimizations that add complexity without proving 10x+ performance improvement
 10. **TODO Comments**: Unless you've verified the condition is actually met (use grep/search to check)
+11. **Iterator Pattern Preferences**: iter().filter().collect() chains - these are idiomatic Rust patterns that are already optimized by the compiler and more elegant than manual loops
+12. **Parallel Collection Operations**: Multiple iterator operations that appear to be "2 passes" (e.g., iter() + filter()) - the Rust compiler optimizes these into single-pass operations through iterator fusion
+13. **Complex Nested Logic**: Deeply nested if/match statements or complex control flow - sometimes business logic requires complexity and flattening would reduce readability
 
 **EVALUATION CRITERIA:**
 - **Trust the Developer**: If code has comments explaining assumptions, believe them
@@ -93,6 +96,7 @@ You are conducting a detailed review of a **single Rust file**.
 - **Avoid Speculation**: Don't report "potential" issues without concrete scenarios
 - **Code Maturity**: If code has been in main branch for 6+ months, assume it's correct unless proven otherwise
 - **Cost-Benefit Analysis**: Only suggest changes where benefit clearly outweighs complexity cost
+- **Iterator Fusion**: Rust's compiler optimizes iterator chains (iter().filter().map().collect()) into single-pass operations - don't flag these as "multiple passes"
 
 **OUTPUT FORMAT:**
 
