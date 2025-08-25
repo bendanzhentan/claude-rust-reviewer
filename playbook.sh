@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# 检查PREFIX_PROMPT环境变量是否设置
+if [ -z "$PREFIX_PROMPT" ]; then
+    echo "错误：环境变量 PREFIX_PROMPT 未设置"
+    echo "请设置 PREFIX_PROMPT 环境变量，例如："
+    echo "export PREFIX_PROMPT='Please review this Rust file'"
+    exit 1
+fi
 
 # 检查是否提供了文件路径参数
 if [ $# -eq 0 ]; then
