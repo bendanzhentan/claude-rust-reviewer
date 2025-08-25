@@ -149,32 +149,105 @@ Then provide a console summary:
 📄 Report generated: .report/{file_path}.md
 ```
 
-**MANDATORY DEEP VALIDATION STEP:**
-After completing the initial review and generating the report, if any high-value issues were found, you MUST immediately perform deep validation:
+## 🚨🚨🚨 CRITICAL MANDATORY STEP - DO NOT SKIP 🚨🚨🚨
+## **MANDATORY DEEP VALIDATION AND CLEANUP STEP:**
 
-1. **For each high-value issue found** (BUG-001, PERF-001, etc.), AUTOMATICALLY use the `/alice-rust-deep` command to validate the issue
-2. **Run deep validation**: `/alice-rust-deep .report/{file_path}.md {issue_id}`
-3. **This will automatically update the report** with Deep Analysis sections for each issue
-4. **The deep validation will classify each issue** as VALID-HIGH/MEDIUM/LOW, QUESTIONABLE, or INVALID-*
-5. **DO NOT SKIP THIS STEP** - deep validation is required for all reported issues
+### ⚠️ WARNING: FAILURE TO EXECUTE THIS STEP WILL RESULT IN FALSE POSITIVES ⚠️
 
-**DEEP VALIDATION IMPLEMENTATION:**
+After completing the initial review and generating the report, you **ABSOLUTELY MUST**:
+
+1. **🔴 STOP AND COUNT**: Count ALL issues found (BUG-xxx, PERF-xxx, REFACTOR-xxx, FEATURE-xxx)
+2. **🔴 FOR EVERY SINGLE ISSUE** without exception, IMMEDIATELY execute `/alice-rust-deep`
+3. **🔴 DO NOT PROCEED** to any other task until ALL deep validations are complete
+4. **🔴 VALIDATION COMMAND**: `/alice-rust-deep .report/{file_path}.md {issue_id}` 
+5. **🔴 REMOVE FALSE POSITIVES**: After ALL validations:
+   - Identify ALL issues marked as INVALID-* or QUESTIONABLE
+   - COMPLETELY REMOVE these false positive sections from the report
+   - Keep ONLY issues marked as VALID-HIGH, VALID-MEDIUM, or VALID-LOW
+6. **🔴 UPDATE REPORT**: Clean up the report to show only validated issues
+
+### 📋 **REQUIRED EXECUTION CHECKLIST:**
 ```
-For each reported issue ID (e.g., BUG-001, PERF-002, CRITICAL-001):
-- Execute: /alice-rust-deep {report_file_path} {issue_id}
-- This will add Deep Analysis validation to the original report
-- Issues marked as INVALID-* can be considered false positives
-- Issues marked as VALID-HIGH should be prioritized for fixes
+☐ Initial review complete, report written to .report/{file_path}.md
+☐ Count total issues found: _____ issues
+☐ Execute /alice-rust-deep for EACH issue:
+  ☐ Issue #1: /alice-rust-deep .report/{file_path}.md {issue_id_1}
+  ☐ Issue #2: /alice-rust-deep .report/{file_path}.md {issue_id_2}
+  ☐ Issue #3: /alice-rust-deep .report/{file_path}.md {issue_id_3}
+  ☐ ... (continue for ALL issues)
+☐ Read updated report with Deep Analysis sections
+☐ Remove ALL INVALID-* issues from report
+☐ Remove ALL QUESTIONABLE issues from report
+☐ Update report summary with final validated issue count
+☐ Final report contains ONLY VALID issues
 ```
 
-**EXAMPLE WORKFLOW:**
-1. Generate initial review report with 3 issues: BUG-001, PERF-001, REFACTOR-001
-2. IMMEDIATELY run `/alice-rust-deep .report/crates_pool_src_batcher.md BUG-001`
-3. IMMEDIATELY run `/alice-rust-deep .report/crates_pool_src_batcher.md PERF-001`  
-4. IMMEDIATELY run `/alice-rust-deep .report/crates_pool_src_batcher.md REFACTOR-001`
-5. Final report will contain both initial findings and deep validation results
+### 🔥 **CRITICAL IMPLEMENTATION STEPS:**
+```
+STEP 1 - INITIAL REVIEW:
+- Complete the code review
+- Write initial report with all findings
+- STOP HERE - DO NOT CONTINUE WITHOUT VALIDATION
 
-This two-phase approach ensures high-quality issue reporting by eliminating false positives through ultra-deep validation.
+STEP 2 - DEEP VALIDATION (MANDATORY):
+- For EACH issue (BUG-001, PERF-001, etc.):
+  Execute: /alice-rust-deep .report/{file_path}.md {issue_id}
+- This MUST be done for EVERY SINGLE ISSUE
+- NO EXCEPTIONS - even "obvious" issues need validation
+
+STEP 3 - CLEANUP FALSE POSITIVES:
+- Read the validated report
+- Find ALL issues marked INVALID-* or QUESTIONABLE
+- DELETE these entire sections from the report
+- Update issue counts in the summary
+
+STEP 4 - FINAL REPORT:
+- Contains ONLY VALID-HIGH/MEDIUM/LOW issues
+- All false positives removed
+- Accurate, validated findings only
+```
+
+### ⚡ **CONCRETE EXAMPLE WITH COMMANDS:**
+```bash
+# Initial review finds 5 issues
+# NOW YOU MUST RUN THESE COMMANDS:
+
+/alice-rust-deep .report/src_main.rs.md BUG-001      # → INVALID-SEMANTICS
+/alice-rust-deep .report/src_main.rs.md BUG-002      # → VALID-HIGH
+/alice-rust-deep .report/src_main.rs.md PERF-001     # → INVALID-ASSUMPTIONS
+/alice-rust-deep .report/src_main.rs.md REFACTOR-001 # → VALID-LOW
+/alice-rust-deep .report/src_main.rs.md REFACTOR-002 # → QUESTIONABLE
+
+# After validation, REMOVE from report:
+# - BUG-001 (INVALID)
+# - PERF-001 (INVALID)
+# - REFACTOR-002 (QUESTIONABLE)
+
+# Final report contains ONLY:
+# - BUG-002 (VALID-HIGH)
+# - REFACTOR-001 (VALID-LOW)
+```
+
+### 🛑 **STOP SIGNS - DO NOT IGNORE:**
+- 🛑 If you found issues but haven't run /alice-rust-deep → STOP and run it
+- 🛑 If you're about to finish without validation → STOP and validate
+- 🛑 If you're unsure whether to validate → YES, ALWAYS validate
+- 🛑 No issue is too small or obvious to skip validation
+
+### ❌ **COMMON MISTAKES TO AVOID:**
+- ❌ Forgetting to run /alice-rust-deep for some issues
+- ❌ Assuming an issue is "obviously correct" without validation
+- ❌ Leaving INVALID or QUESTIONABLE issues in the final report
+- ❌ Not updating the summary after removing false positives
+- ❌ Skipping validation because the issue "seems valid"
+
+### ✅ **SUCCESS CRITERIA:**
+The review is ONLY complete when:
+1. ✅ Every single issue has been validated with /alice-rust-deep
+2. ✅ All INVALID-* issues have been removed from the report
+3. ✅ All QUESTIONABLE issues have been removed from the report
+4. ✅ The report contains ONLY VALID-HIGH/MEDIUM/LOW issues
+5. ✅ The summary accurately reflects the final validated issue count
 
 **HIGH-VALUE ISSUE CRITERIA:**
 Issues must meet these standards to be worth reporting:
