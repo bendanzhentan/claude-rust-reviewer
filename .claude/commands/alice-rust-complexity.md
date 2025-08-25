@@ -1,8 +1,8 @@
-# /alice-rust-complexity
+# /alice-rust-complexity <root_dir>
 
-I need you to measure the complexity of each Rust code file in the current project. Please follow these steps:
+I need you to measure the complexity of each Rust code file in the specified root directory. Please follow these steps:
 
-1. Find all Rust source files (*.rs) in the project directory and subdirectories
+1. Find all Rust source files (*.rs) in the <root_dir> directory and subdirectories, excluding files that contain "test|codec|api|errors|models|benches|version" in their path
 2. For each Rust file, calculate a complexity score based on:
    - Cyclomatic complexity (number of decision points: if, match, while, for, loop statements)
    - Function count and nesting depth
