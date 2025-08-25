@@ -1,4 +1,4 @@
-# /rust-deep-review
+# /alice-deep-review
 
 **Description:** Deep validation analysis of specific issues from Rust code review reports using advanced reasoning
 
@@ -87,7 +87,6 @@ After completing your analysis, update the original report by adding a **Deep An
 - **Real-world Scenarios**: {Concrete scenarios where this would/wouldn't manifest}
 - **Evidence**: {Code snippets, tests, or patterns that support your conclusion}
 - **Recommendation**: {Whether to fix, ignore, or investigate further}
-- **Human Validation Required**: {true/false - whether human review is still needed}
 ```
 
 ## CRITICAL VALIDATION GUIDELINES

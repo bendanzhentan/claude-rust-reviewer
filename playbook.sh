@@ -74,8 +74,8 @@ while IFS= read -r line || [[ -n "$line" ]]; do
         fi
 
         # 执行Claude命令
-        echo "claude --dangerously-skip-permissions --model sonnet -p \"$PREFIX_PROMPT $line\""
-        claude --dangerously-skip-permissions --model sonnet -p "$PREFIX_PROMPT $line"
+        echo "claude --dangerously-skip-permissions -p \"$PREFIX_PROMPT $line\""
+        claude --dangerously-skip-permissions -p "$PREFIX_PROMPT $line"
 
         # 检查命令执行结果
         if [ $? -eq 0 ]; then

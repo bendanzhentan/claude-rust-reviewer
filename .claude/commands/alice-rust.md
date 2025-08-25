@@ -1,4 +1,4 @@
-# /rust-review-file
+# /alice-rust
 
 **Description:** Detailed review of a single Rust file
 
@@ -97,7 +97,7 @@ You are conducting a detailed review of a single Rust file.
 **OUTPUT FORMAT:**
 
 **REPORT OUTPUT:**
-Create a detailed report at `.report/{file_relative_path}.md` with the following content:
+Create a detailed report at `.report/{file_path}.md` with the following content:
 
 ```markdown
 # Code Review Report: {file_path}
@@ -108,63 +108,59 @@ Create a detailed report at `.report/{file_relative_path}.md` with the following
 ## 🐛 BUGS (Actual problems that will cause failures)
 
 ### [BUG-001] {descriptive_issue_name}
-- **Location:** {file}:{line}
+- **Location:** {file_path}:{line}
 - **Issue:** {concrete_problem_that_causes_incorrect_behavior}
 - **Proof:** {specific_scenario_where_this_fails}
 - **Fix:** {exact_code_change_needed}
 - **Priority:** HIGH
-- **Human Options:**
 
 ## ⚡ PERFORMANCE (Provable inefficiencies with O(n) analysis)
 
 ### [PERF-001] {descriptive_issue_name}
-- **Location:** {file}:{line}
+- **Location:** {file_path}:{line}
 - **Current Complexity:** {e.g., O(n) where n is total pool size}
 - **Optimal Complexity:** {e.g., O(k) where k is requested count}
 - **Impact:** {measurable_impact_in_production_scenario}
 - **Fix:** {specific_optimization_with_code}
 - **Priority:** HIGH/MEDIUM
-- **Human Options:**
 
 ## 🔧 REFACTOR (Code organization improvements)
 
 ### [REFACTOR-001] {descriptive_issue_name}
-- **Location:** {file}:{line}
+- **Location:** {file_path}:{line}
 - **Problem:** {maintenance_or_consistency_issue}
 - **Benefit:** {concrete_improvement_this_brings}
 - **Change:** {specific_refactoring_approach}
 - **Priority:** MEDIUM/LOW
-- **Human Options:**
 
 ## 💡 FEATURE (Missing functionality suggestions)
 
 ### [FEATURE-001] {descriptive_issue_name}
-- **Location:** {file}:{line}
+- **Location:** {file_path}:{line}
 - **Current Gap:** {what_is_missing}
 - **Use Case:** {why_this_would_be_valuable}
 - **Implementation:** {how_to_add_this_feature}
 - **Priority:** MEDIUM/LOW
-- **Human Options:**
 ```
 
 Then provide a console summary:
 ```
 🔍 CAREFUL TARGETED CODE REVIEW COMPLETED: {file_path}
-📄 Report generated: .report/{file_relative_path}.md
+📄 Report generated: .report/{file_path}.md
 ```
 
 **DEEP VALIDATION STEP:**
 After completing the initial review and generating the report, if any issues were found, perform deep validation on each reported issue:
 
-1. **For each issue found** (BUG-001, PERF-001, etc.), use the `/rust-deep-review` command to validate the issue
-2. **Run deep validation**: `/rust-deep-review .report/{file_relative_path}.md {issue_id}`
+1. **For each issue found** (BUG-001, PERF-001, etc.), use the `/alice-rust-deep` command to validate the issue
+2. **Run deep validation**: `/alice-rust-deep .report/{file_path}.md {issue_id}`
 3. **This will automatically update the report** with Deep Analysis sections for each issue
 4. **The deep validation will classify each issue** as VALID-HIGH/MEDIUM/LOW, QUESTIONABLE, or INVALID-*
 
 **DEEP VALIDATION IMPLEMENTATION:**
 ```
 For each reported issue ID (e.g., BUG-001, PERF-002, CRITICAL-001):
-- Execute: /rust-deep-review {report_file_path} {issue_id}
+- Execute: /alice-rust-deep {report_file_path} {issue_id}
 - This will add Deep Analysis validation to the original report
 - Issues marked as INVALID-* can be considered false positives
 - Issues marked as VALID-HIGH should be prioritized for fixes
@@ -172,9 +168,9 @@ For each reported issue ID (e.g., BUG-001, PERF-002, CRITICAL-001):
 
 **EXAMPLE WORKFLOW:**
 1. Generate initial review report with 3 issues: BUG-001, PERF-001, REFACTOR-001
-2. Run `/rust-deep-review .report/crates_pool_src_batcher.md BUG-001`
-3. Run `/rust-deep-review .report/crates_pool_src_batcher.md PERF-001`  
-4. Run `/rust-deep-review .report/crates_pool_src_batcher.md REFACTOR-001`
+2. Run `/alice-rust-deep .report/crates_pool_src_batcher.md BUG-001`
+3. Run `/alice-rust-deep .report/crates_pool_src_batcher.md PERF-001`  
+4. Run `/alice-rust-deep .report/crates_pool_src_batcher.md REFACTOR-001`
 5. Final report will contain both initial findings and deep validation results
 
 This two-phase approach ensures high-quality issue reporting by eliminating false positives through ultra-deep validation.
